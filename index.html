@@ -1,0 +1,1775 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ANTALYA — Akdeniz'in Ötesinde</title>
+
+    <meta name="description" content="Antalya'da keşfedilecek eşsiz yerler. Doğa, tarih, deniz ve macerayı keşfet.">
+
+    <style>
+        /* =========================================================
+           RESET
+        ========================================================= */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #071316;
+            color: #f4f7f6;
+            overflow-x: hidden;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button {
+            font-family: inherit;
+        }
+
+        ::selection {
+            background: #35d0ba;
+            color: #061012;
+        }
+
+        /* =========================================================
+           CUSTOM CURSOR
+        ========================================================= */
+
+        .cursor {
+            position: fixed;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #35d0ba;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            mix-blend-mode: difference;
+            transition:
+                width .25s ease,
+                height .25s ease,
+                opacity .25s ease;
+        }
+
+        .cursor-ring {
+            position: fixed;
+            width: 38px;
+            height: 38px;
+            border: 1px solid rgba(53, 208, 186, .7);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9998;
+            transform: translate(-50%, -50%);
+            transition:
+                width .3s ease,
+                height .3s ease;
+        }
+
+        /* =========================================================
+           BACKGROUND
+        ========================================================= */
+
+        .noise {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 1000;
+            opacity: .035;
+            background-image:
+                url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
+
+        .glow {
+            position: fixed;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            background: rgba(25, 175, 155, .09);
+            filter: blur(100px);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .glow.one {
+            top: -200px;
+            left: -150px;
+        }
+
+        .glow.two {
+            bottom: -250px;
+            right: -150px;
+            background: rgba(255, 149, 67, .06);
+        }
+
+        /* =========================================================
+           NAVBAR
+        ========================================================= */
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 82px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 6vw;
+            z-index: 900;
+            transition: .4s ease;
+        }
+
+        .navbar.scrolled {
+            background: rgba(5, 17, 20, .78);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255,255,255,.07);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            font-weight: 800;
+            letter-spacing: 3px;
+            font-size: 18px;
+        }
+
+        .logo-mark {
+            width: 30px;
+            height: 30px;
+            border: 1px solid #35d0ba;
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .logo-mark::before,
+        .logo-mark::after {
+            content: "";
+            position: absolute;
+            background: #35d0ba;
+        }
+
+        .logo-mark::before {
+            width: 16px;
+            height: 1px;
+            top: 14px;
+            left: 6px;
+        }
+
+        .logo-mark::after {
+            height: 16px;
+            width: 1px;
+            left: 14px;
+            top: 6px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 36px;
+            list-style: none;
+            font-size: 13px;
+            color: #aebdbb;
+        }
+
+        .nav-links a {
+            position: relative;
+            transition: .3s;
+        }
+
+        .nav-links a:hover {
+            color: white;
+        }
+
+        .nav-links a::after {
+            content: "";
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: #35d0ba;
+            transition: .3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .menu-btn {
+            display: none;
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(255,255,255,.15);
+            background: transparent;
+            color: white;
+            cursor: pointer;
+            border-radius: 50%;
+        }
+
+        /* =========================================================
+           HERO
+        ========================================================= */
+
+        .hero {
+            min-height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            padding: 120px 8vw 70px;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            z-index: -2;
+            background:
+                linear-gradient(90deg,
+                    rgba(5,17,20,.98) 0%,
+                    rgba(5,17,20,.76) 38%,
+                    rgba(5,17,20,.20) 75%,
+                    rgba(5,17,20,.62) 100%),
+                linear-gradient(0deg,
+                    #071316 0%,
+                    transparent 35%),
+                url("https://images.unsplash.com/photo-1530789253388-582c481c54b0?auto=format&fit=crop&w=2200&q=85")
+                center/cover;
+            transform: scale(1.08);
+            animation: heroZoom 12s ease-out forwards;
+        }
+
+        @keyframes heroZoom {
+            from {
+                transform: scale(1.12);
+            }
+            to {
+                transform: scale(1);
+            }
+        }
+
+        .hero-content {
+            max-width: 800px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .eyebrow {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #35d0ba;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            font-size: 11px;
+            margin-bottom: 25px;
+            animation: fadeUp .8s .1s both;
+        }
+
+        .eyebrow-line {
+            width: 50px;
+            height: 1px;
+            background: #35d0ba;
+        }
+
+        .hero h1 {
+            font-size: clamp(65px, 11vw, 160px);
+            line-height: .82;
+            letter-spacing: -8px;
+            font-weight: 800;
+            margin-bottom: 40px;
+            animation: fadeUp 1s .25s both;
+        }
+
+        .hero h1 span {
+            color: transparent;
+            -webkit-text-stroke: 1px rgba(255,255,255,.7);
+        }
+
+        .hero-description {
+            max-width: 480px;
+            color: #b5c3c1;
+            line-height: 1.8;
+            font-size: 15px;
+            margin-bottom: 35px;
+            animation: fadeUp .9s .45s both;
+        }
+
+        .hero-actions {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            animation: fadeUp .9s .6s both;
+        }
+
+        .primary-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 23px;
+            background: #35d0ba;
+            color: #051113;
+            border: none;
+            border-radius: 100px;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            transition: .35s;
+        }
+
+        .primary-btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 35px rgba(53,208,186,.2);
+        }
+
+        .circle-arrow {
+            width: 30px;
+            height: 30px;
+            display: grid;
+            place-items: center;
+            background: rgba(0,0,0,.12);
+            border-radius: 50%;
+        }
+
+        .text-btn {
+            color: #d9e3e1;
+            font-size: 13px;
+            position: relative;
+        }
+
+        .text-btn::after {
+            content: "";
+            position: absolute;
+            bottom: -7px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: rgba(255,255,255,.35);
+        }
+
+        .hero-scroll {
+            position: absolute;
+            bottom: 38px;
+            left: 8vw;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: #7f9391;
+            font-size: 10px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .scroll-line {
+            width: 60px;
+            height: 1px;
+            background: #516563;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .scroll-line::after {
+            content: "";
+            position: absolute;
+            width: 20px;
+            height: 1px;
+            background: #35d0ba;
+            left: -20px;
+            animation: scrollLine 2s infinite;
+        }
+
+        @keyframes scrollLine {
+            to {
+                left: 100%;
+            }
+        }
+
+        .hero-stats {
+            position: absolute;
+            right: 7vw;
+            bottom: 65px;
+            display: flex;
+            gap: 50px;
+            animation: fadeUp 1s .8s both;
+        }
+
+        .stat {
+            text-align: right;
+        }
+
+        .stat strong {
+            display: block;
+            font-size: 27px;
+            font-weight: 500;
+        }
+
+        .stat span {
+            color: #829391;
+            font-size: 9px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* =========================================================
+           SECTION COMMON
+        ========================================================= */
+
+        section {
+            padding: 130px 8vw;
+            position: relative;
+        }
+
+        .section-heading {
+            display: flex;
+            align-items: end;
+            justify-content: space-between;
+            margin-bottom: 65px;
+            gap: 40px;
+        }
+
+        .section-number {
+            color: #35d0ba;
+            font-size: 11px;
+            letter-spacing: 4px;
+            margin-bottom: 18px;
+        }
+
+        .section-title {
+            font-size: clamp(40px, 6vw, 78px);
+            line-height: .95;
+            letter-spacing: -4px;
+        }
+
+        .section-title span {
+            color: #60716f;
+        }
+
+        .section-intro {
+            max-width: 370px;
+            color: #81918f;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        /* =========================================================
+           DESTINATIONS
+        ========================================================= */
+
+        .destinations {
+            background: #071316;
+        }
+
+        .destination-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 20px;
+        }
+
+        .destination-card {
+            height: 570px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 4px;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(50px);
+            transition:
+                opacity .8s ease,
+                transform .8s ease;
+        }
+
+        .destination-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .destination-card:nth-child(1) {
+            grid-column: span 7;
+        }
+
+        .destination-card:nth-child(2) {
+            grid-column: span 5;
+            margin-top: 90px;
+        }
+
+        .destination-card:nth-child(3) {
+            grid-column: span 5;
+        }
+
+        .destination-card:nth-child(4) {
+            grid-column: span 7;
+            margin-top: -80px;
+        }
+
+        .card-image {
+            position: absolute;
+            inset: 0;
+            background-position: center;
+            background-size: cover;
+            transition: transform 1s cubic-bezier(.2,.7,.2,1);
+        }
+
+        .destination-card:hover .card-image {
+            transform: scale(1.08);
+        }
+
+        .card-overlay {
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(
+                    0deg,
+                    rgba(3,10,11,.92),
+                    rgba(3,10,11,.05) 65%
+                );
+        }
+
+        .card-content {
+            position: absolute;
+            left: 30px;
+            right: 30px;
+            bottom: 30px;
+            z-index: 2;
+        }
+
+        .card-category {
+            display: inline-block;
+            color: #35d0ba;
+            font-size: 9px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .card-title {
+            font-size: 36px;
+            letter-spacing: -1.5px;
+            margin-bottom: 10px;
+        }
+
+        .card-description {
+            color: #adbab8;
+            font-size: 12px;
+            line-height: 1.7;
+            max-width: 450px;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: .5s ease;
+        }
+
+        .destination-card:hover .card-description {
+            max-height: 100px;
+            opacity: 1;
+            margin-top: 8px;
+        }
+
+        .card-number {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            font-size: 11px;
+            color: rgba(255,255,255,.6);
+            letter-spacing: 2px;
+            z-index: 3;
+        }
+
+        /* =========================================================
+           PARALLAX QUOTE
+        ========================================================= */
+
+        .quote-section {
+            min-height: 75vh;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            background:
+                linear-gradient(rgba(5,17,20,.78), rgba(5,17,20,.9)),
+                url("https://images.unsplash.com/photo-1605281317010-fe5ffe798166?auto=format&fit=crop&w=2200&q=85")
+                center/cover fixed;
+        }
+
+        .quote-section::before {
+            content: "";
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            border: 1px solid rgba(53,208,186,.18);
+            border-radius: 50%;
+            right: -150px;
+            top: -150px;
+        }
+
+        .quote-content {
+            max-width: 1000px;
+        }
+
+        .quote-mark {
+            color: #35d0ba;
+            font-size: 80px;
+            line-height: .5;
+            margin-bottom: 35px;
+        }
+
+        .quote {
+            font-size: clamp(36px, 6vw, 76px);
+            letter-spacing: -3px;
+            line-height: 1.05;
+        }
+
+        .quote span {
+            color: #687876;
+        }
+
+        .quote-author {
+            margin-top: 35px;
+            color: #7e918e;
+            font-size: 11px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        /* =========================================================
+           EXPERIENCE
+        ========================================================= */
+
+        .experience {
+            background: #0a191c;
+        }
+
+        .experience-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 100px;
+            align-items: center;
+        }
+
+        .experience-image {
+            height: 600px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .experience-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 1s ease;
+        }
+
+        .experience-image:hover img {
+            transform: scale(1.05);
+        }
+
+        .image-label {
+            position: absolute;
+            bottom: 25px;
+            left: 25px;
+            padding: 10px 14px;
+            background: rgba(5,17,20,.7);
+            backdrop-filter: blur(10px);
+            font-size: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .experience-list {
+            border-top: 1px solid rgba(255,255,255,.12);
+        }
+
+        .experience-item {
+            padding: 27px 0;
+            border-bottom: 1px solid rgba(255,255,255,.12);
+            display: grid;
+            grid-template-columns: 50px 1fr 25px;
+            align-items: center;
+            gap: 20px;
+            cursor: pointer;
+            transition: .3s;
+        }
+
+        .experience-item:hover {
+            padding-left: 12px;
+            color: #35d0ba;
+        }
+
+        .experience-item .number {
+            color: #35d0ba;
+            font-size: 11px;
+        }
+
+        .experience-item h3 {
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .experience-item p {
+            grid-column: 2 / 4;
+            color: #72827f;
+            font-size: 12px;
+            line-height: 1.7;
+            display: none;
+            padding-right: 20px;
+        }
+
+        .experience-item.active p {
+            display: block;
+        }
+
+        .experience-item .plus {
+            transition: .3s;
+        }
+
+        .experience-item.active .plus {
+            transform: rotate(45deg);
+            color: #35d0ba;
+        }
+
+        /* =========================================================
+           FOOTER / CTA
+        ========================================================= */
+
+        .cta {
+            text-align: center;
+            padding: 150px 8vw;
+            background:
+                radial-gradient(
+                    circle at center,
+                    rgba(53,208,186,.09),
+                    transparent 45%
+                ),
+                #071316;
+        }
+
+        .cta small {
+            color: #35d0ba;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            font-size: 10px;
+        }
+
+        .cta h2 {
+            font-size: clamp(50px, 9vw, 120px);
+            line-height: .85;
+            letter-spacing: -7px;
+            margin: 25px auto 45px;
+            max-width: 1000px;
+        }
+
+        .cta h2 span {
+            color: #536562;
+        }
+
+        footer {
+            padding: 30px 8vw;
+            border-top: 1px solid rgba(255,255,255,.08);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: #60716f;
+            font-size: 10px;
+            letter-spacing: 1px;
+        }
+
+        footer strong {
+            color: #a6b4b2;
+            font-weight: 500;
+        }
+
+        /* =========================================================
+           FLOATING ELEMENTS
+        ========================================================= */
+
+        .floating-badge {
+            position: fixed;
+            right: 28px;
+            bottom: 28px;
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            background: #35d0ba;
+            color: #061214;
+            z-index: 700;
+            display: grid;
+            place-items: center;
+            cursor: pointer;
+            box-shadow: 0 15px 40px rgba(0,0,0,.3);
+            transition: .3s;
+        }
+
+        .floating-badge:hover {
+            transform: scale(1.1) rotate(10deg);
+        }
+
+        .floating-badge svg {
+            width: 22px;
+        }
+
+        /* =========================================================
+           MOBILE
+        ========================================================= */
+
+        @media (max-width: 900px) {
+
+            .nav-links {
+                position: fixed;
+                top: 82px;
+                left: 0;
+                width: 100%;
+                background: rgba(5,17,20,.97);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                padding: 30px 8vw;
+                gap: 25px;
+                transform: translateY(-150%);
+                transition: .4s ease;
+            }
+
+            .nav-links.open {
+                transform: translateY(0);
+            }
+
+            .menu-btn {
+                display: block;
+            }
+
+            .hero {
+                padding-left: 7vw;
+                padding-right: 7vw;
+            }
+
+            .hero h1 {
+                letter-spacing: -5px;
+            }
+
+            .hero-stats {
+                display: none;
+            }
+
+            .destination-grid {
+                display: block;
+            }
+
+            .destination-card,
+            .destination-card:nth-child(2),
+            .destination-card:nth-child(3),
+            .destination-card:nth-child(4) {
+                height: 470px;
+                margin: 0 0 20px;
+            }
+
+            .experience-grid {
+                grid-template-columns: 1fr;
+                gap: 60px;
+            }
+
+            .experience-image {
+                height: 450px;
+            }
+
+            .section-heading {
+                display: block;
+            }
+
+            .section-intro {
+                margin-top: 25px;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            .navbar {
+                height: 70px;
+                padding: 0 6vw;
+            }
+
+            .nav-links {
+                top: 70px;
+            }
+
+            .hero {
+                min-height: 100svh;
+                padding-top: 130px;
+            }
+
+            .hero h1 {
+                font-size: 65px;
+                letter-spacing: -4px;
+            }
+
+            .hero-description {
+                font-size: 13px;
+            }
+
+            .hero-actions {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .hero-scroll {
+                display: none;
+            }
+
+            section {
+                padding: 90px 7vw;
+            }
+
+            .section-title {
+                letter-spacing: -2px;
+            }
+
+            .card-title {
+                font-size: 28px;
+            }
+
+            .quote-section {
+                min-height: 65vh;
+                background-attachment: scroll;
+            }
+
+            .quote {
+                letter-spacing: -1.5px;
+            }
+
+            .experience-image {
+                height: 380px;
+            }
+
+            .cta {
+                padding: 110px 7vw;
+            }
+
+            .cta h2 {
+                letter-spacing: -4px;
+            }
+
+            footer {
+                flex-direction: column;
+                gap: 12px;
+                text-align: center;
+            }
+
+            .cursor,
+            .cursor-ring {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Noise texture -->
+    <div class="noise"></div>
+
+    <!-- Ambient glows -->
+    <div class="glow one"></div>
+    <div class="glow two"></div>
+
+    <!-- Custom cursor -->
+    <div class="cursor"></div>
+    <div class="cursor-ring"></div>
+
+    <!-- =========================================================
+         NAVIGATION
+    ========================================================== -->
+
+    <header class="navbar">
+
+        <a href="#home" class="logo">
+            <span class="logo-mark"></span>
+            ANTALYA
+        </a>
+
+        <nav>
+            <ul class="nav-links">
+                <li><a href="#home">Ana Sayfa</a></li>
+                <li><a href="#kesfet">Keşfet</a></li>
+                <li><a href="#deneyimler">Deneyimler</a></li>
+                <li><a href="#hakkinda">Antalya</a></li>
+            </ul>
+        </nav>
+
+        <button class="menu-btn" aria-label="Menüyü aç">
+            ☰
+        </button>
+
+    </header>
+
+
+    <!-- =========================================================
+         HERO
+    ========================================================== -->
+
+    <main>
+
+        <section class="hero" id="home">
+
+            <div class="hero-bg"></div>
+
+            <div class="hero-content">
+
+                <div class="eyebrow">
+                    <span class="eyebrow-line"></span>
+                    Akdeniz'in kalbinden
+                </div>
+
+                <h1>
+                    ANTALYA<br>
+                    <span>KEŞFET.</span>
+                </h1>
+
+                <p class="hero-description">
+                    Turkuaz koylardan binlerce yıllık antik kentlere,
+                    doğanın ve tarihin buluştuğu Antalya'nın
+                    keşfedilmeyi bekleyen yüzünü deneyimle.
+                </p>
+
+                <div class="hero-actions">
+
+                    <a href="#kesfet" class="primary-btn">
+                        Yolculuğa Başla
+                        <span class="circle-arrow">↓</span>
+                    </a>
+
+                    <a href="#deneyimler" class="text-btn">
+                        Deneyimleri keşfet
+                    </a>
+
+                </div>
+
+            </div>
+
+            <div class="hero-scroll">
+                <span class="scroll-line"></span>
+                Aşağı kaydır
+            </div>
+
+            <div class="hero-stats">
+
+                <div class="stat">
+                    <strong>19°C</strong>
+                    <span>Ortalama sıcaklık</span>
+                </div>
+
+                <div class="stat">
+                    <strong>630+</strong>
+                    <span>km kıyı şeridi</span>
+                </div>
+
+                <div class="stat">
+                    <strong>2.300+</strong>
+                    <span>yıllık tarih</span>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             DESTINATIONS
+        ====================================================== -->
+
+        <section class="destinations" id="kesfet">
+
+            <div class="section-heading">
+
+                <div>
+                    <div class="section-number">01 / KEŞFET</div>
+
+                    <h2 class="section-title">
+                        GİZLİ <span>HAZİNELER</span>
+                    </h2>
+                </div>
+
+                <p class="section-intro">
+                    Antalya sadece deniz ve güneşten ibaret değil.
+                    Her köşesinde farklı bir hikâye saklayan
+                    eşsiz rotaları keşfet.
+                </p>
+
+            </div>
+
+
+            <div class="destination-grid">
+
+                <!-- KAPUTAŞ -->
+
+                <article class="destination-card reveal">
+
+                    <div
+                        class="card-image"
+                        style="background-image:url('https://images.unsplash.com/photo-1605537964076-3cb0ea2ff0b9?auto=format&fit=crop&w=1400&q=85')">
+                    </div>
+
+                    <div class="card-overlay"></div>
+
+                    <span class="card-number">01</span>
+
+                    <div class="card-content">
+
+                        <span class="card-category">
+                            Plaj / Kaş
+                        </span>
+
+                        <h3 class="card-title">
+                            Kaputaş
+                        </h3>
+
+                        <p class="card-description">
+                            Dik kayalıkların arasına gizlenmiş,
+                            Akdeniz'in en karakteristik plajlarından
+                            biri. Turkuaz suyuyla unutulmaz bir manzara.
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <!-- OLYMPOS -->
+
+                <article class="destination-card reveal">
+
+                    <div
+                        class="card-image"
+                        style="background-image:url('https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=1200&q=85')">
+                    </div>
+
+                    <div class="card-overlay"></div>
+
+                    <span class="card-number">02</span>
+
+                    <div class="card-content">
+
+                        <span class="card-category">
+                            Antik Kent / Kemer
+                        </span>
+
+                        <h3 class="card-title">
+                            Olympos
+                        </h3>
+
+                        <p class="card-description">
+                            Antik kalıntılar, yemyeşil doğa ve Akdeniz'in
+                            sakinliği aynı rotada buluşuyor.
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <!-- DÜDEN -->
+
+                <article class="destination-card reveal">
+
+                    <div
+                        class="card-image"
+                        style="background-image:url('https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1200&q=85')">
+                    </div>
+
+                    <div class="card-overlay"></div>
+
+                    <span class="card-number">03</span>
+
+                    <div class="card-content">
+
+                        <span class="card-category">
+                            Doğa / Şehir
+                        </span>
+
+                        <h3 class="card-title">
+                            Düden
+                        </h3>
+
+                        <p class="card-description">
+                            Şehrin içinde başlayan ve denize doğru uzanan
+                            etkileyici şelaleleriyle Antalya'nın
+                            doğal simgelerinden biri.
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <!-- PHASELIS -->
+
+                <article class="destination-card reveal">
+
+                    <div
+                        class="card-image"
+                        style="background-image:url('https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=1400&q=85')">
+                    </div>
+
+                    <div class="card-overlay"></div>
+
+                    <span class="card-number">04</span>
+
+                    <div class="card-content">
+
+                        <span class="card-category">
+                            Tarih / Tekirova
+                        </span>
+
+                        <h3 class="card-title">
+                            Phaselis
+                        </h3>
+
+                        <p class="card-description">
+                            Antik limanları, çam ormanları ve masmavi
+                            koylarıyla tarih ile doğanın yan yana
+                            yaşadığı benzersiz bir rota.
+                        </p>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             QUOTE
+        ====================================================== -->
+
+        <section class="quote-section" id="hakkinda">
+
+            <div class="quote-content">
+
+                <div class="quote-mark">“</div>
+
+                <p class="quote">
+                    Bazı şehirler gezilir.
+                    <span>Bazı şehirler ise yaşanır.</span>
+                    Antalya ikisini de yapar.
+                </p>
+
+                <div class="quote-author">
+                    Akdeniz — Türkiye
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             EXPERIENCES
+        ====================================================== -->
+
+        <section class="experience" id="deneyimler">
+
+            <div class="section-heading">
+
+                <div>
+                    <div class="section-number">02 / DENEYİMLER</div>
+
+                    <h2 class="section-title">
+                        SADECE <span>GÖRME.</span>
+                    </h2>
+                </div>
+
+                <p class="section-intro">
+                    Antalya'yı gerçekten tanımak için sadece
+                    manzaralara bakma. Şehrin sunduğu
+                    deneyimlerin içine gir.
+                </p>
+
+            </div>
+
+
+            <div class="experience-grid">
+
+                <div class="experience-image">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1400&q=85"
+                        alt="Antalya doğa manzarası">
+
+                    <div class="image-label">
+                        Akdeniz'in doğası
+                    </div>
+
+                </div>
+
+
+                <div class="experience-list">
+
+                    <div class="experience-item active">
+
+                        <span class="number">01</span>
+
+                        <h3>Gün doğumunda denize gir</h3>
+
+                        <span class="plus">+</span>
+
+                        <p>
+                            Sabahın ilk ışıklarıyla Akdeniz'in sakin
+                            sularına gir ve kalabalıklar gelmeden
+                            kıyının tadını çıkar.
+                        </p>
+
+                    </div>
+
+
+                    <div class="experience-item">
+
+                        <span class="number">02</span>
+
+                        <h3>Antik kentlerde kaybol</h3>
+
+                        <span class="plus">+</span>
+
+                        <p>
+                            Likya medeniyetinin izlerini takip ederek
+                            taş sokaklarda ve antik tiyatrolarda
+                            geçmişe doğru bir yolculuğa çık.
+                        </p>
+
+                    </div>
+
+
+                    <div class="experience-item">
+
+                        <span class="number">03</span>
+
+                        <h3>Likya yollarını keşfet</h3>
+
+                        <span class="plus">+</span>
+
+                        <p>
+                            Dağların ve denizin arasından ilerleyen
+                            eşsiz yürüyüş rotalarında Antalya'nın
+                            doğal güzelliklerini keşfet.
+                        </p>
+
+                    </div>
+
+
+                    <div class="experience-item">
+
+                        <span class="number">04</span>
+
+                        <h3>Yerel lezzetleri tat</h3>
+
+                        <span class="plus">+</span>
+
+                        <p>
+                            Antalya mutfağının piyaz, tahinli kabak,
+                            serpme börek ve yöresel tatlarını
+                            keşfet.
+                        </p>
+
+                    </div>
+
+
+                    <div class="experience-item">
+
+                        <span class="number">05</span>
+
+                        <h3>Gün batımını izle</h3>
+
+                        <span class="plus">+</span>
+
+                        <p>
+                            Günün son ışıklarında falezlerden
+                            Akdeniz'i seyret ve şehrin turuncu
+                            tonlara bürünmesini izle.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             CTA
+        ====================================================== -->
+
+        <section class="cta">
+
+            <small>
+                Sıradaki maceran burada
+            </small>
+
+            <h2>
+                AKDENİZ'E<br>
+                <span>DOĞRU.</span>
+            </h2>
+
+            <a href="#home" class="primary-btn">
+                Başa Dön
+                <span class="circle-arrow">↑</span>
+            </a>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================================================
+         FOOTER
+    ========================================================== -->
+
+    <footer>
+
+        <div>
+            © <span id="year"></span> ANTALYA / KEŞFET
+        </div>
+
+        <div>
+            Tasarım & Geliştirme:
+            <strong>Alperen Karakuş</strong>
+        </div>
+
+    </footer>
+
+
+    <!-- Floating back-to-top -->
+    <button class="floating-badge" id="topButton" aria-label="Yukarı çık">
+
+        <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.7">
+
+            <path d="M12 19V5"/>
+            <path d="M6 11l6-6 6 6"/>
+
+        </svg>
+
+    </button>
+
+
+    <script>
+
+        /* =========================================================
+           YEAR
+        ========================================================= */
+
+        document.getElementById("year").textContent =
+            new Date().getFullYear();
+
+
+        /* =========================================================
+           NAVBAR SCROLL
+        ========================================================= */
+
+        const navbar = document.querySelector(".navbar");
+
+        window.addEventListener("scroll", () => {
+
+            if (window.scrollY > 50) {
+                navbar.classList.add("scrolled");
+            } else {
+                navbar.classList.remove("scrolled");
+            }
+
+        });
+
+
+        /* =========================================================
+           MOBILE MENU
+        ========================================================= */
+
+        const menuButton = document.querySelector(".menu-btn");
+        const navLinks = document.querySelector(".nav-links");
+
+        menuButton.addEventListener("click", () => {
+
+            navLinks.classList.toggle("open");
+
+            menuButton.textContent =
+                navLinks.classList.contains("open") ? "×" : "☰";
+
+        });
+
+
+        document.querySelectorAll(".nav-links a").forEach(link => {
+
+            link.addEventListener("click", () => {
+
+                navLinks.classList.remove("open");
+                menuButton.textContent = "☰";
+
+            });
+
+        });
+
+
+        /* =========================================================
+           REVEAL ANIMATIONS
+        ========================================================= */
+
+        const revealElements =
+            document.querySelectorAll(".reveal");
+
+        const revealObserver =
+            new IntersectionObserver(
+                (entries) => {
+
+                    entries.forEach((entry, index) => {
+
+                        if (entry.isIntersecting) {
+
+                            setTimeout(() => {
+
+                                entry.target.classList.add("visible");
+
+                            }, index * 120);
+
+                            revealObserver.unobserve(entry.target);
+                        }
+
+                    });
+
+                },
+                {
+                    threshold: .12
+                }
+            );
+
+
+        revealElements.forEach(element => {
+            revealObserver.observe(element);
+        });
+
+
+        /* =========================================================
+           EXPERIENCE ACCORDION
+        ========================================================= */
+
+        const experienceItems =
+            document.querySelectorAll(".experience-item");
+
+        experienceItems.forEach(item => {
+
+            item.addEventListener("click", () => {
+
+                experienceItems.forEach(other => {
+
+                    if (other !== item) {
+                        other.classList.remove("active");
+                    }
+
+                });
+
+                item.classList.toggle("active");
+
+            });
+
+        });
+
+
+        /* =========================================================
+           BACK TO TOP
+        ========================================================= */
+
+        const topButton =
+            document.getElementById("topButton");
+
+        topButton.addEventListener("click", () => {
+
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+
+        });
+
+
+        /* =========================================================
+           CUSTOM CURSOR
+        ========================================================= */
+
+        const cursor =
+            document.querySelector(".cursor");
+
+        const cursorRing =
+            document.querySelector(".cursor-ring");
+
+        let mouseX = 0;
+        let mouseY = 0;
+
+        let ringX = 0;
+        let ringY = 0;
+
+        document.addEventListener("mousemove", e => {
+
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+
+            cursor.style.left = mouseX + "px";
+            cursor.style.top = mouseY + "px";
+
+        });
+
+
+        function animateCursor() {
+
+            ringX += (mouseX - ringX) * .13;
+            ringY += (mouseY - ringY) * .13;
+
+            cursorRing.style.left = ringX + "px";
+            cursorRing.style.top = ringY + "px";
+
+            requestAnimationFrame(animateCursor);
+
+        }
+
+        animateCursor();
+
+
+        /* =========================================================
+           CURSOR HOVER EFFECT
+        ========================================================= */
+
+        const interactiveElements =
+            document.querySelectorAll(
+                "a, button, .destination-card, .experience-item"
+            );
+
+        interactiveElements.forEach(element => {
+
+            element.addEventListener("mouseenter", () => {
+
+                cursor.style.width = "25px";
+                cursor.style.height = "25px";
+
+                cursorRing.style.width = "55px";
+                cursorRing.style.height = "55px";
+
+            });
+
+            element.addEventListener("mouseleave", () => {
+
+                cursor.style.width = "14px";
+                cursor.style.height = "14px";
+
+                cursorRing.style.width = "38px";
+                cursorRing.style.height = "38px";
+
+            });
+
+        });
+
+
+        /* =========================================================
+           PARALLAX HERO
+        ========================================================= */
+
+        const heroBg =
+            document.querySelector(".hero-bg");
+
+        window.addEventListener("scroll", () => {
+
+            const scroll =
+                window.scrollY;
+
+            if (scroll < window.innerHeight) {
+
+                heroBg.style.transform =
+                    `scale(1) translateY(${scroll * .18}px)`;
+
+            }
+
+        });
+
+
+        /* =========================================================
+           MOUSE PARALLAX
+        ========================================================= */
+
+        const hero =
+            document.querySelector(".hero");
+
+        hero.addEventListener("mousemove", e => {
+
+            const x =
+                (e.clientX / window.innerWidth - .5) * 10;
+
+            const y =
+                (e.clientY / window.innerHeight - .5) * 10;
+
+            heroBg.style.marginLeft = x + "px";
+            heroBg.style.marginTop = y + "px";
+
+        });
+
+
+        hero.addEventListener("mouseleave", () => {
+
+            heroBg.style.marginLeft = "0";
+            heroBg.style.marginTop = "0";
+
+        });
+
+
+        /* =========================================================
+           SMOOTH ANCHOR OFFSET
+        ========================================================= */
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+
+            anchor.addEventListener("click", function(e) {
+
+                const target =
+                    document.querySelector(this.getAttribute("href"));
+
+                if (!target) return;
+
+                e.preventDefault();
+
+                const offset = 70;
+
+                const position =
+                    target.getBoundingClientRect().top +
+                    window.scrollY -
+                    offset;
+
+                window.scrollTo({
+                    top: position,
+                    behavior: "smooth"
+                });
+
+            });
+
+        });
+
+    </script>
+<elevenlabs-convai agent-id="agent_9001m40vz0d4egw9t9hhs8vaqbkr"></elevenlabs-convai><script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
+</body>
+</html>
